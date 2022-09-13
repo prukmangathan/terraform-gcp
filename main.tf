@@ -28,7 +28,7 @@ provider "google" {
   credentials = file("credentials.json")
   region      = "us-east1"
   project     = "dazzling-matrix-361211"
-  alias = "east"
+  alias       = "east"
 }
 
 resource "google_service_account" "default" {
