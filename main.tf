@@ -67,3 +67,4 @@ module "compute_instance_us_east1" {
     google = google.east
   }
 }
+  
