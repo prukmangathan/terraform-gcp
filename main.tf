@@ -26,13 +26,11 @@ locals {
 }
 
 provider "google" {
-  credentials = file("credentials.json")
   region      = "us-central1"
   project     = "dazzling-matrix-361211"
 }
 
 provider "google" {
-  credentials = file("credentials.json")
   region      = "us-east1"
   project     = "dazzling-matrix-361211"
   alias       = "east"
