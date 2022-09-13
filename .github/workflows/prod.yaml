@@ -1,4 +1,4 @@
-name: "QA_pipeline"
+name: "Prod_pipeline"
 
 on:
   workflow_dispatch:
@@ -23,6 +23,6 @@ jobs:
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'push'
-        run: terraform plan -no-color -var-file="develop.auto.tfvars"
+        run: terraform plan -no-color -var-file="prod.auto.tfvars"
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
