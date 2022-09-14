@@ -76,7 +76,7 @@ variable "service_account_email" {
   description = "The instance service account email."
 }
 
-variable "region" {
+variable "zone" {
   type    = string
   default = null
 }
