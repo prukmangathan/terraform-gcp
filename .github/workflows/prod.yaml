@@ -31,9 +31,3 @@ jobs:
         run: terraform apply -var-file="prod.auto.tfvars" --auto-approve
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
-
-      - name: Terraform destroy
-        id: destroy
-        run: terraform destroy -var-file="prod.auto.tfvars" --auto-approve
-        env:
-          GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
