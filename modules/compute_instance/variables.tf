@@ -75,3 +75,8 @@ variable "service_account_email" {
   default     = "default"
   description = "The instance service account email."
 }
+
+variable "region" {
+  type    = string
+  default = "us-central1"
+}

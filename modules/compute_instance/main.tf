@@ -9,12 +9,21 @@ resource "random_id" "uuid" {
   byte_length = 8
 }
 
+data "google_compute_zones" "available" {
+  region = var.region
+}
+
+resource "random_shuffle" "zone" {
+  input        = data.google_compute_zones.available.names
+  result_count = 1
+}
+
 resource "google_compute_instance" "main" {
   #project      = var.project_id
   name         = local.name
   hostname     = var.hostname
   machine_type = var.machine_type
-  zone         = var.zone
+  zone         = var.zone == "" ? random_shuffle.zone.result : var.zone
 
   tags   = var.tags
   labels = var.labels

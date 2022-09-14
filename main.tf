@@ -1,19 +1,19 @@
 terraform {
   backend "gcs" {
-    bucket  = "terraform-state-file-7482"
+    bucket = "terraform-state-file-7482"
     #prefix  = "github/terraform-gcp"
   }
 }
 
 provider "google" {
-  region  = "us-central1"
-  project = "dazzling-matrix-361211"
+  region  = var.primary_region
+  project = var.project_id
 }
 
 provider "google" {
-  region  = "us-east1"
-  project = "dazzling-matrix-361211"
-  alias   = "east"
+  region  = var.secondary_region
+  project = var.project_id #
+  alias   = "secondary"
 }
 
 resource "google_service_account" "default" {
@@ -23,8 +23,8 @@ resource "google_service_account" "default" {
 
 module "compute_instance_us_central1" {
   source = "./modules/compute_instance"
-  count  = length(var.app_ids)
-  zone   = "us-central1-a"
+  count  = length(var.usc_app_ids)
+  region = var.primary_region
 
   prefix      = "hd"
   app_id      = var.app_ids[count.index]
@@ -37,8 +37,8 @@ module "compute_instance_us_central1" {
 
 module "compute_instance_us_east1" {
   source = "./modules/compute_instance"
-  count  = length(var.app_ids)
-  zone   = "us-east1-b"
+  count  = length(var.use_app_ids)
+  region = var.secondary_region
 
   prefix      = "tax"
   app_id      = var.app_ids[count.index]
@@ -49,6 +49,6 @@ module "compute_instance_us_east1" {
   service_account_email = google_service_account.default.email
 
   providers = {
-    google = google.east
+    google = google.secondary
   }
 }
