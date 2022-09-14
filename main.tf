@@ -5,12 +5,12 @@ terraform {
 }
 
 provider "google" {
-  region  = var.primary_region
+  region  = "us-central1"
   project = var.project_id
 }
 
 provider "google" {
-  region  = var.secondary_region
+  region  = "us-east1"
   project = var.project_id
   alias   = "secondary"
 }
@@ -23,7 +23,7 @@ resource "google_service_account" "default" {
 module "compute_instance_us_central1" {
   source = "./modules/compute_instance"
   count  = length(var.usc_app_ids)
-  region = var.primary_region
+  region = "us-central1"
 
   prefix      = "hd"
   app_id      = var.usc_app_ids[count.index]
@@ -37,7 +37,7 @@ module "compute_instance_us_central1" {
 module "compute_instance_us_east1" {
   source = "./modules/compute_instance"
   count  = length(var.use_app_ids)
-  region = var.secondary_region
+  region = "us-east1"
 
   prefix      = "tax"
   app_id      = var.use_app_ids[count.index]
