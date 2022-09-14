@@ -1,7 +1,6 @@
 terraform {
   backend "gcs" {
     bucket = "terraform-state-file-7482"
-    #prefix  = "github/terraform-gcp"
   }
 }
 
@@ -12,7 +11,7 @@ provider "google" {
 
 provider "google" {
   region  = var.secondary_region
-  project = var.project_id #
+  project = var.project_id
   alias   = "secondary"
 }
 

@@ -51,4 +51,8 @@ resource "google_compute_instance" "main" {
     email  = var.service_account_email
     scopes = ["cloud-platform"]
   }
+
+  depends_on = [
+    random_shuffle.zone
+  ]
 }
