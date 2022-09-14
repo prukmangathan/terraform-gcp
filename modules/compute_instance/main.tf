@@ -16,7 +16,8 @@ resource "google_compute_instance" "main" {
   machine_type = var.machine_type
   zone         = var.zone
 
-  tags = var.tags
+  tags   = var.tags
+  labels = var.labels
 
   boot_disk {
     initialize_params {

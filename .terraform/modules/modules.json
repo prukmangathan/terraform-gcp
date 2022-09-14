@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"compute_instance_us_east1","Source":"./modules/compute_instance","Dir":"modules/compute_instance"},{"Key":"","Source":"","Dir":"."},{"Key":"compute_instance_us_central1","Source":"./modules/compute_instance","Dir":"modules/compute_instance"}]}

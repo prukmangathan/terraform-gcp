@@ -21,13 +21,13 @@ variable "machine_type" {
   default     = null
   description = "The instance machine_type."
 }
-/*
-variable "project_id" {
-  type        = string
-  default     = null
-  description = "The instance project_id."
+
+variable "labels" {
+  type        = map(string)
+  default     = {}
+  description = "The instance labels."
 }
-*/
+
 variable "zone" {
   type        = string
   default     = null

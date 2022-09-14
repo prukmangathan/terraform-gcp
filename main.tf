@@ -1,39 +1,19 @@
 terraform {
   backend "gcs" {
-    bucket  = "terraform-state-file-7482"
-    prefix  = "github/terraform-gcp"
+    bucket = "terraform-state-file-7482"
+    prefix = "github/terraform-gcp"
   }
 }
 
-locals {
-  uscentral1 = [
-    {
-      zone = "us-central1-a"
-    },
-    {
-      zone = "us-central1-b"
-    }
-  ]
-
-  useast1 = [
-    {
-      zone = "us-east1-a"
-    },
-    {
-      zone = "us-east1-b"
-    }
-  ]
+provider "google" {
+  region  = "us-central1"
+  project = "dazzling-matrix-361211"
 }
 
 provider "google" {
-  region      = "us-central1"
-  project     = "dazzling-matrix-361211"
-}
-
-provider "google" {
-  region      = "us-east1"
-  project     = "dazzling-matrix-361211"
-  alias       = "east"
+  region  = "us-east1"
+  project = "dazzling-matrix-361211"
+  alias   = "east"
 }
 
 resource "google_service_account" "default" {
@@ -43,11 +23,11 @@ resource "google_service_account" "default" {
 
 module "compute_instance_us_central1" {
   source = "./modules/compute_instance"
-  for_each = { for region in local.uscentral1: region.zone => region}
-  zone   = each.value.zone
+  count  = length(var.app_ids)
+  zone   = "us-central1-a"
 
-  prefix      = "tax"
-  app_id      = "loans"
+  prefix      = "hd"
+  app_id      = var.app_ids[count.index]
   environment = var.environment
 
   machine_type          = "e2-medium"
@@ -57,11 +37,11 @@ module "compute_instance_us_central1" {
 
 module "compute_instance_us_east1" {
   source = "./modules/compute_instance"
-  for_each = { for region in local.useast1: region.zone => region}
-  zone   = each.value.zone
+  count  = length(var.app_ids)
+  zone   = "us-east1-a"
 
   prefix      = "tax"
-  app_id      = "loans"
+  app_id      = var.app_ids[count.index]
   environment = var.environment
 
   machine_type          = "e2-medium"
