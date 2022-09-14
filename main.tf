@@ -27,7 +27,7 @@ module "compute_instance_us_central1" {
   region = var.primary_region
 
   prefix      = "hd"
-  app_id      = var.app_ids[count.index]
+  app_id      = var.usc_app_ids[count.index]
   environment = var.environment
 
   machine_type          = "e2-medium"
@@ -41,7 +41,7 @@ module "compute_instance_us_east1" {
   region = var.secondary_region
 
   prefix      = "tax"
-  app_id      = var.app_ids[count.index]
+  app_id      = var.use_app_ids[count.index]
   environment = var.environment
 
   machine_type          = "e2-medium"
