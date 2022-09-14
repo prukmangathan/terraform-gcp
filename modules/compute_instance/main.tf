@@ -23,7 +23,7 @@ resource "google_compute_instance" "main" {
   name         = local.name
   hostname     = var.hostname
   machine_type = var.machine_type
-  zone         = var.zone == "" ? random_shuffle.zone.result : var.zone
+  zone         = var.zone == "" ? random_shuffle.zone.result[0] : var.zone
 
   tags   = var.tags
   labels = var.labels
