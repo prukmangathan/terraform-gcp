@@ -31,7 +31,7 @@ module "compute_instance_us_central1" {
 module "compute_instance_us_east1" {
   source = "./modules/compute_instance"
   count  = length(var.app_ids)
-  zone   = "us-east1-a"
+  zone   = "us-east1-b"
 
   prefix      = "tax"
   app_id      = var.app_ids[count.index]
