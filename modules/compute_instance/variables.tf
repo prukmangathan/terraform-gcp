@@ -78,5 +78,5 @@ variable "service_account_email" {
 
 variable "region" {
   type    = string
-  default = "us-central1"
+  default = null
 }
