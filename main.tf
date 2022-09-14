@@ -1,3 +1,10 @@
+terraform {
+  backend "gcs" {
+    bucket  = "terraform-state-file-7482"
+    #prefix  = "github/terraform-gcp"
+  }
+}
+
 provider "google" {
   region  = "us-central1"
   project = "dazzling-matrix-361211"
