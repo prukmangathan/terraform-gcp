@@ -16,7 +16,7 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config=config/dev.config
+        run: terraform init -backend-config=config/dev.conf
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
  
