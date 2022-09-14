@@ -1,2 +1,2 @@
 environment = "prod"
-app_ids     = ["P41"]
+app_ids     = ["p41"]
