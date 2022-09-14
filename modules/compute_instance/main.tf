@@ -10,7 +10,8 @@ resource "random_id" "uuid" {
 }
 
 data "google_compute_zones" "available" {
-  region = var.region
+  project = var.project_id
+  region  = var.region
 }
 
 resource "random_shuffle" "zone" {
@@ -19,7 +20,7 @@ resource "random_shuffle" "zone" {
 }
 
 resource "google_compute_instance" "main" {
-  #project      = var.project_id
+  project      = var.project_id
   name         = local.name
   hostname     = var.hostname
   machine_type = var.machine_type

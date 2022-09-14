@@ -80,3 +80,8 @@ variable "region" {
   type    = string
   default = null
 }
+
+variable "project_id" {
+  type    = string
+  default = null
+}
