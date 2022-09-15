@@ -32,9 +32,9 @@ resource "google_compute_instance" "main" {
     dynamic "initialize_params" {
       for_each = var.disk_image
       content {
-        size  = lookup(image.value, "size", null)
-        type  = lookup(image.value, "type", null)
-        image = lookup(image.value, "image", null)
+        size  = lookup(initialize_params.value, "size", null)
+        type  = lookup(initialize_params.value, "type", null)
+        image = lookup(initialize_params.value, "image", null)
       }
     }
   }
