@@ -1,8 +1,9 @@
+# Naming convention for instance name
 locals {
-  name              = "${var.prefix}-${var.app_id}-${var.environment}-${format("%.2s", random_id.uuid.dec)}"
-  network_interface = length(format("%s%s", var.network, var.subnetwork)) == 0 ? [] : [1]
+  name = "${var.prefix}-${var.app_id}-${var.environment}-${format("%.2s", random_id.uuid.dec)}"
 }
 
+# Generate random id for resource name
 resource "random_id" "uuid" {
   keepers = {
     seed = "${var.prefix}-${var.app_id}-${var.environment}"
@@ -10,6 +11,7 @@ resource "random_id" "uuid" {
   byte_length = 8
 }
 
+# Create compute instance
 resource "google_compute_instance" "main" {
   project                 = var.project_id
   name                    = local.name
@@ -21,7 +23,7 @@ resource "google_compute_instance" "main" {
   labels                  = var.labels
   metadata_startup_script = var.metadata_startup_script
 
-
+  # Boot disk for compute instance 
   boot_disk {
     auto_delete             = var.auto_delete
     device_name             = var.device_name
@@ -39,6 +41,7 @@ resource "google_compute_instance" "main" {
     }
   }
 
+  # Additional disk for compute instance (Optional)
   dynamic "attached_disk" {
     for_each = var.attached_disk
 
@@ -51,6 +54,7 @@ resource "google_compute_instance" "main" {
     }
   }
 
+  # Network for compute instance
   network_interface {
     network            = var.network
     subnetwork         = var.subnetwork
@@ -65,6 +69,7 @@ resource "google_compute_instance" "main" {
     }
   }
 
+  # Service account for compute instance
   service_account {
     email  = var.service_account_email
     scopes = ["cloud-platform"]

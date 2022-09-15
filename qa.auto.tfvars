@@ -10,7 +10,7 @@ usc_instance_config = [
     },
     disk_image = [
       {
-        size  = 20
+        size  = 20 #GB
         image = "debian-cloud/debian-11"
       }
     ]
@@ -24,7 +24,7 @@ usc_instance_config = [
     },
     disk_image = [
       {
-        size  = 20
+        size  = 20 #GB
         image = "debian-cloud/debian-11"
       }
     ]
@@ -41,7 +41,7 @@ use_instance_config = [
     },
     disk_image = [
       {
-        size  = 20
+        size  = 20 #GB
         image = "debian-cloud/debian-11"
       }
     ]
