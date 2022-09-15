@@ -106,13 +106,18 @@ variable "access_config" {
 }
 
 variable "network_ip" {
-  type        = list(string)
-  description = "List of static IPs for VM instances"
-  default     = []
+  description = "Private IP address to assign to the instance if desired."
+  default     = ""
 }
 
 variable "attached_disk" {
   description = "List of maps of disk image."
+  type        = any
+  default     = []
+}
+
+variable "network_interface" {
+  description = "List of maps of network interfaces."
   type        = any
   default     = []
 }

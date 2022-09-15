@@ -1,6 +1,5 @@
 locals {
   name              = "${var.prefix}-${var.app_id}-${var.environment}-${format("%.2s", random_id.uuid.dec)}"
-  network_ip        = concat(var.network_ip, ["NOT_AN_IP"])
   network_interface = length(format("%s%s", var.network, var.subnetwork)) == 0 ? [] : [1]
 }
 
@@ -56,11 +55,11 @@ resource "google_compute_instance" "main" {
     }
   }
 
-network_interface {
+  network_interface {
     network            = var.network
     subnetwork         = var.subnetwork
     subnetwork_project = var.subnetwork_project
-    network_ip         = length(var.network_ip) == 0 ? "" : element(local.network_ip, count.index)
+    network_ip         = length(var.network_ip) > 0 ? var.network_ip : null
     dynamic "access_config" {
       for_each = var.access_config
       content {
