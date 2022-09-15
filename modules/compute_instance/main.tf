@@ -28,7 +28,7 @@ resource "google_compute_instance" "main" {
     mode                    = var.mode
     disk_encryption_key_raw = var.disk_encryption_key_raw
     kms_key_self_link       = var.kms_key_self_link
-    source                  = var.source
+    source                  = var.disk_source
     dynamic "initialize_params" {
       for_each = var.disk_image
       content {

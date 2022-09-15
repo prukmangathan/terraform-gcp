@@ -147,7 +147,7 @@ variable "kms_key_self_link" {
   default = null
 }
 
-variable "source" {
+variable "disk_source" {
   type    = string
   default = null
 }
