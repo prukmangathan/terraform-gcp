@@ -33,6 +33,7 @@ module "compute_instance_us_central1" {
   environment           = var.environment
   machine_type          = "e2-medium"
   disk_image            = lookup(each.value, "disk_image", var.disk_image)
+  network = "default"
   service_account_email = google_service_account.default.email
 }
 
@@ -49,6 +50,7 @@ module "compute_instance_us_east1" {
   environment           = var.environment
   machine_type          = "e2-medium"
   disk_image            = each.value.disk_image
+  network = "default"
   service_account_email = google_service_account.default.email
 
   providers = {
