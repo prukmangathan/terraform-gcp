@@ -13,6 +13,11 @@ usc_instance_config = [
         size  = 20
         image = "debian-cloud/debian-11"
       }
+    ],
+    access_config = [
+      {
+        nat_ip = "35.224.115.85"
+      }
     ]
   },
   {
