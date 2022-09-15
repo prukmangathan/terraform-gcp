@@ -60,7 +60,7 @@ resource "google_compute_instance" "main" {
       for_each = var.access_config
       content {
         nat_ip       = access_config.value.nat_ip
-        network_tier = lookup(attached_disk.value, "network_tier", null)
+        network_tier = lookup(access_config.value, "network_tier", null)
       }
     }
   }
