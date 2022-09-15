@@ -4,12 +4,12 @@ variable "environment" {
 }
 
 variable "usc_instance_config" {
-  type    = list(string)
+  type    = any
   default = []
 }
 
 variable "use_instance_config" {
-  type    = list(string)
+  type    = any
   default = []
 }
 
