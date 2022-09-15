@@ -19,7 +19,7 @@ variable "environment" {
 variable "machine_type" {
   type        = string
   default     = null
-  description = "The instance machine_type."
+  description = "Machine type to create, e.g. n1-standard-1"
 }
 
 variable "labels" {
@@ -46,16 +46,22 @@ variable "tags" {
   description = "The instance tags."
 }
 
-variable "image" {
-  type        = string
-  default     = null
-  description = "The instance image."
-}
-
 variable "network" {
   type        = string
-  default     = "default"
+  default     = ""
   description = "The instance network."
+}
+
+variable "subnetwork_project" {
+  type        = string
+  description = "The project that subnetwork belongs to"
+  default     = ""
+}
+
+variable "subnetwork" {
+  type        = string
+  description = "Subnet to deploy to. Only one of network or subnetwork should be specified."
+  default     = ""
 }
 
 variable "metadata" {
@@ -79,4 +85,34 @@ variable "service_account_email" {
 variable "project_id" {
   type    = string
   default = null
+}
+
+variable "boot_disk" {
+  description = "List of maps of disks."
+  type        = any
+  default     = []
+}
+
+variable "disk_image" {
+  description = "List of maps of disk image."
+  type        = any
+  default     = []
+}
+
+variable "access_config" {
+  description = "Access configurations, i.e. IPs via which the VM instance can be accessed via the Internet."
+  type        = any
+  default     = []
+}
+
+variable "network_ip" {
+  type        = list(string)
+  description = "List of static IPs for VM instances"
+  default     = []
+}
+
+variable "attached_disk" {
+  description = "List of maps of disk image."
+  type        = any
+  default     = []
 }

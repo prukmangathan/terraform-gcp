@@ -3,12 +3,12 @@ variable "environment" {
   default = null
 }
 
-variable "usc_app_ids" {
+variable "usc_instance_config" {
   type    = list(string)
   default = []
 }
 
-variable "use_app_ids" {
+variable "use_instance_config" {
   type    = list(string)
   default = []
 }
@@ -17,14 +17,9 @@ variable "project_id" {
   type    = string
   default = "dazzling-matrix-361211"
 }
-/*
-variable "primary_region" {
-  type    = string
-  default = "us-central1"
-}
 
-variable "secondary_region" {
-  type    = string
-  default = "us-east1"
+variable "disk_image" {
+  description = "List of maps of disk image."
+  type        = any
+  default     = []
 }
-*/

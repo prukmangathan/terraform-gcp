@@ -20,51 +20,35 @@ resource "google_service_account" "default" {
   display_name = "sa-ci-vm-1234"
 }
 
-data "google_compute_zones" "primary" {
-  project = var.project_id
-  region  = "us-central1"
-}
-
-data "google_compute_zones" "secondary" {
-  project = var.project_id
-  region  = "us-east1"
-}
-
-resource "random_shuffle" "primary" {
-  input        = data.google_compute_zones.primary.names
-  result_count = 1
-}
-
-resource "random_shuffle" "secondary" {
-  input        = data.google_compute_zones.secondary.names
-  result_count = 1
-}
-
 module "compute_instance_us_central1" {
-  source = "./modules/compute_instance"
-  count  = length(var.usc_app_ids)
-  zone   = random_shuffle.primary.result[0]
+  source   = "./modules/compute_instance"
+  for_each = { for instance in var.usc_instance_config : "${instance.zone}-${instance.app_id}" => instance }
 
-  prefix      = "hd"
-  app_id      = var.usc_app_ids[count.index]
-  environment = var.environment
-
+  project_id            = var.project_id
+  zone                  = each.value.zone
+  tags                  = lookup(each.value, "tags", {})
+  labels                = lookup(each.value, "labels", {})
+  prefix                = "hd"
+  app_id                = each.value.app_id
+  environment           = var.environment
   machine_type          = "e2-medium"
-  image                 = "debian-cloud/debian-11"
+  disk_image            = lookup(each.value, "disk_image", var.disk_image)
   service_account_email = google_service_account.default.email
 }
 
 module "compute_instance_us_east1" {
-  source = "./modules/compute_instance"
-  count  = length(var.use_app_ids)
-  zone   = random_shuffle.secondary.result[0]
+  source   = "./modules/compute_instance"
+  for_each = { for instance in var.use_instance_config : "${instance.zone}-${instance.app_id}" => instance }
 
-  prefix      = "tax"
-  app_id      = var.use_app_ids[count.index]
-  environment = var.environment
-
+  project_id            = var.project_id
+  zone                  = each.value.zone
+  tags                  = lookup(each.value, "tags", {})
+  labels                = lookup(each.value, "labels", {})
+  prefix                = "hd"
+  app_id                = each.value.app_id
+  environment           = var.environment
   machine_type          = "e2-medium"
-  image                 = "debian-cloud/debian-11"
+  disk_image            = each.value.disk_image
   service_account_email = google_service_account.default.email
 
   providers = {
