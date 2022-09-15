@@ -22,23 +22,19 @@ resource "google_compute_instance" "main" {
   metadata_startup_script = var.metadata_startup_script
 
 
-  dynamic "boot_disk" {
-    for_each = var.boot_disk
-
-    content {
-      auto_delete             = lookup(boot_disk.value, "auto_delete", null)
-      device_name             = lookup(boot_disk.value, "device_name", null)
-      mode                    = lookup(boot_disk.value, "mode", null)
-      disk_encryption_key_raw = lookup(boot_disk.value, "disk_encryption_key_raw", null)
-      kms_key_self_link       = lookup(boot_disk.value, "kms_key_self_link", null)
-      source                  = lookup(boot_disk.value, "source", null)
-      dynamic "initialize_params" {
-        for_each = var.disk_image
-        content {
-          size  = lookup(image.value, "size", null)
-          type  = lookup(image.value, "type", null)
-          image = lookup(image.value, "image", null)
-        }
+  boot_disk {
+    auto_delete             = var.auto_delete
+    device_name             = var.device_name
+    mode                    = var.mode
+    disk_encryption_key_raw = var.disk_encryption_key_raw
+    kms_key_self_link       = var.kms_key_self_link
+    source                  = var.source
+    dynamic "initialize_params" {
+      for_each = var.disk_image
+      content {
+        size  = lookup(image.value, "size", null)
+        type  = lookup(image.value, "type", null)
+        image = lookup(image.value, "image", null)
       }
     }
   }

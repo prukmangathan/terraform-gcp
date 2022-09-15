@@ -121,3 +121,33 @@ variable "network_interface" {
   type        = any
   default     = []
 }
+
+variable "auto_delete" {
+  type    = string
+  default = null
+}
+
+variable "device_name" {
+  type    = string
+  default = null
+}
+
+variable "mode" {
+  type    = string
+  default = null
+}
+
+variable "disk_encryption_key_raw" {
+  type    = string
+  default = null
+}
+
+variable "kms_key_self_link" {
+  type    = string
+  default = null
+}
+
+variable "source" {
+  type    = string
+  default = null
+}
