@@ -39,10 +39,10 @@ jobs:
         
       - name: Terraform Plan
         id: plan
-        if: ${{ github.event.inputs.Terraform }} == 'apply'
+        if: ${{ github.event.inputs.Terraform == 'apply' }} 
         run: terraform plan -var-file="${{ github.event.inputs.Environment }}.auto.tfvars"
 
       - name: Terraform destroy
-        if: ${{ github.event.inputs.Terraform }} == 'destroy'
+        if: ${{ github.event.inputs.Terraform == 'destroy' }} 
         id: destroy
         run: terraform destroy -var-file="${{ github.event.inputs.Environment }}.auto.tfvars" --auto-approve
