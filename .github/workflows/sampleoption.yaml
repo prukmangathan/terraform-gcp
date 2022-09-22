@@ -29,10 +29,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - run: |
-        echo "Environment: ${{ github.event.inputs.Environment }}"
-        echo "Terraform-Actions: ${{ github.event.inputs.Terraform }}" 
-
       - name: checkout
         uses: actions/checkout@v2
 
