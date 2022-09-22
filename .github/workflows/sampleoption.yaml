@@ -8,16 +8,16 @@ on:
         type: choice
         description: "The GCP environment in which the resources will be created"
         options:
-          -dev
-          -qa
-          -prod
+          - dev
+          - qa
+          - prod
       Terraform:
         required: true
         type: choice
         description: "The terraform actions"
         options:
-          -apply
-          -destroy
+          - apply
+          - destroy
 
 jobs:
   printInputs:
