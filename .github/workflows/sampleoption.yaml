@@ -1,4 +1,4 @@
-name: Sample Options
+name: "Sample Options"
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
       environment:
         required: true
         type: choice
-        description: The environment to where the terraform will be applied
+        description: "The GCP environment in which the resources will be created"
         default: dev
         options:
           -dev
@@ -17,7 +17,7 @@ on:
       terraform:
         required: true
         type: choice
-        description: The terraform actions
+        description: "The terraform actions"
         options:
           -apply
           -destroy
@@ -42,11 +42,11 @@ jobs:
         run: terraform plan -var-file="${{ inputs.environment }}.auto.tfvars"
 
       - name: Terraform apply
-        if: ${{ inputs.environment }} = "apply"
+        if: ${{ inputs.terraform }} == "apply"
         id: apply
         run: terraform apply -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
 
       - name: Terraform destroy
-        if: ${{ inputs.environment }} = "destroy"
+        if: ${{ inputs.terraform }} == "destroy"
         id: destroy
         run: terraform destroy -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
