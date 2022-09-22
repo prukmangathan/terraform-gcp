@@ -1,4 +1,4 @@
-name: "backup Options"
+name: "Sample Options"
 
 on:
   workflow_dispatch:
