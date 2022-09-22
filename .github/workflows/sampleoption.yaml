@@ -1,0 +1,52 @@
+name: Sample Options
+
+on:
+  workflow_dispatch:
+    branches:
+      - main
+    inputs:
+      environment:
+        required: true
+        type: choice
+        description: The environment to where the terraform will be applied
+        default: dev
+        options:
+          -dev
+          -qa
+          -prod
+      terraform:
+        required: true
+        type: choice
+        description: The terraform actions
+        options:
+          -apply
+          -destroy
+    env:
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=config/${{ inputs.environment }}.conf
+        
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="${{ inputs.environment }}.auto.tfvars"
+
+      - name: Terraform apply
+        if: ${{ inputs.environment }} = "apply"
+        id: apply
+        run: terraform apply -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
+
+      - name: Terraform destroy
+        if: ${{ inputs.environment }} = "destroy"
+        id: destroy
+        run: terraform destroy -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
