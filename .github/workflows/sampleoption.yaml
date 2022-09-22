@@ -1,12 +1,14 @@
-name: "Sample Options"
+name: "backup Options"
 
 on:
   workflow_dispatch:
+    branches:
+      - main
     inputs:
       Environment:
         required: true
         type: choice
-        description: "The GCP environment in which the resources will be created"
+        description: "Environment"
         options:
           - dev
           - qa
@@ -14,15 +16,40 @@ on:
       Terraform:
         required: true
         type: choice
-        description: "The terraform actions"
+        description: "Terraform Arg"
         options:
           - apply
           - destroy
+env:
+  GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
 
 jobs:
-  printInputs:
+  terraform:
+    name: "Terraform"
     runs-on: ubuntu-latest
+
     steps:
-    - run: |
+      - run: |
         echo "Environment: ${{ github.event.inputs.Environment }}"
         echo "Terraform-Actions: ${{ github.event.inputs.Terraform }}" 
+
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend-config=config/${{ github.event.inputs.Environment }}.conf
+        
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -var-file="${{ github.event.inputs.Environment }}.auto.tfvars"
+
+      - name: Terraform apply
+        if: ${{ github.event.inputs.Terraform }} == "apply"
+        id: apply
+        run: terraform apply -var-file="${{ github.event.inputs.Environment }}.auto.tfvars" --auto-approve
+
+      - name: Terraform destroy
+        if: ${{ github.event.inputs.Terraform }} == "destroy"
+        id: destroy
+        run: terraform destroy -var-file="${{ github.event.inputs.Environment }}.auto.tfvars" --auto-approve
