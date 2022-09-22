@@ -30,23 +30,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - run: |
+        echo "Environment: ${{ github.event.inputs.environment }}"
+        echo "Terraform-Actions: ${{ github.event.inputs.terraform }}" 
+
       - name: checkout
         uses: actions/checkout@v2
 
       - name: Terraform Init
         id: init
-        run: terraform init -backend-config=config/${{ inputs.environment }}.conf
+        run: terraform init -backend-config=config/${{ github.event.inputs.environment }}.conf
         
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file="${{ inputs.environment }}.auto.tfvars"
+        run: terraform plan -var-file="${{ github.event.inputs.environment }}.auto.tfvars"
 
       - name: Terraform apply
-        if: ${{ inputs.terraform }} == "apply"
+        if: ${{ github.event.inputs.terraform }} == "apply"
         id: apply
-        run: terraform apply -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
+        run: terraform apply -var-file="${{ github.event.inputs.environment }}.auto.tfvars" --auto-approve
 
       - name: Terraform destroy
-        if: ${{ inputs.terraform }} == "destroy"
+        if: ${{ github.event.inputs.terraform }} == "destroy"
         id: destroy
-        run: terraform destroy -var-file="${{ inputs.environment }}.auto.tfvars" --auto-approve
+        run: terraform destroy -var-file="${{ github.event.inputs.environment }}.auto.tfvars" --auto-approve
